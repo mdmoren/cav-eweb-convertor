@@ -2,6 +2,7 @@ from lib.eweb import *
 from lib.cav import *
 from lib.helpers import *
 from lib.processor import *
+import os
 
 def main():
     cav_directory = 'CAV'
@@ -34,6 +35,17 @@ def main():
         print("No CAV CSV files to process.")
 
     process_final_csv(preprocessed_directory, processed_directory, consumer_house)
+
+    def delete_files_in_directories(*directories):
+        for directory in directories:
+            if os.path.exists(directory):
+                for filename in os.listdir(directory):
+                    file_path = os.path.join(directory, filename)
+                    if os.path.isfile(file_path):
+                        os.remove(file_path)
+
+    # Delete files from CAV and EWEB directories
+    delete_files_in_directories(cav_directory, eweb_directory, preprocessed_directory)
 
 if __name__ == "__main__":
     main()
